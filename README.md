@@ -18,7 +18,7 @@ VietLegalQA is an end-to-end unsupervised framework designed to generate high-qu
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
+git clone https://github.com/khannhub/VietLegalQA.git
 cd VietLegalQA
 ```
 
@@ -126,17 +126,26 @@ The framework follows these steps:
 If you use this work, please cite:
 
 ```bibtex
-@article{vietlegalqa2024,
-  title={VietLegalQA: Unsupervised Legal Question Answering for Vietnamese using Cloze Translation Approach},
-  author={Nguyen Ngoc, Kha and others},
-  journal={IEEE},
-  year={2024}
+@inproceedings{vietlegalqa2023,
+  title={VietLegalQA: Unsupervised Legal Question Answering for Vietnamese Using Cloze Translation Approach},
+  author={Nguyen Ngoc, Kha and Nguyen Trong, Phuc and Luong Nguyen Minh, Chanh and Nguyen Hoang Gia, Khang and Nguyen Quoc, Trung and Truong Hoang, Vinh},
+  booktitle={2023 IEEE 15th International Conference on Computational Intelligence and Communication Networks (CICN)},
+  year={2023},
+  doi={10.1109/CICN.2023.10402152}
 }
 ```
 
 ## License
 
-[Add your license here]
+This work is copyrighted by IEEE. 
+
+According to IEEE copyright policies, authors retain the right to post the accepted version on their personal servers or institutional repositories, provided that:
+- The posted version includes a prominently displayed IEEE copyright notice
+- When published, a full citation to the original IEEE publication is included, including a link to the article abstract in IEEE Xplore
+
+For the full published version, please refer to: [IEEE Xplore](https://ieeexplore.ieee.org/document/10402152)
+
+For questions about IEEE copyright policy, please contact: IEEE Intellectual Property Rights Office, copyrights@ieee.org
 
 ## Authors
 
