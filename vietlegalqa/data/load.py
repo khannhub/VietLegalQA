@@ -23,18 +23,15 @@ def load_document_hf(
                     field=field,
                 )
             case tuple():
+                dataset = load_dataset(path)[split] if split else load_dataset(path)
                 return (
                     Document(
-                        data=load_dataset(path, split=split)
-                        .select(range(select[0], select[1]))
-                        .to_list(),
+                        data=dataset.select(range(select[0], select[1])).to_list(),
                         field=field,
                     )
                     if len(select) == 2
                     else Document(
-                        data=load_dataset(path, split=split)
-                        .select(range(select[0], select[1], select[2]))
-                        .to_list(),
+                        data=dataset.select(range(select[0], select[1], select[2])).to_list(),
                         field=field,
                     )
                 )
@@ -80,18 +77,15 @@ def load_qa_hf(
                     field=field,
                 )
             case tuple():
+                dataset = load_dataset(path)[split] if split else load_dataset(path)
                 return (
                     QADataset(
-                        data=load_dataset(path, split=split)
-                        .select(range(select[0], select[1]))
-                        .to_list(),
+                        data=dataset.select(range(select[0], select[1])).to_list(),
                         field=field,
                     )
                     if len(select) == 2
                     else QADataset(
-                        data=load_dataset(path, split=split)
-                        .select(range(select[0], select[1], select[2]))
-                        .to_list(),
+                        data=dataset.select(range(select[0], select[1], select[2])).to_list(),
                         field=field,
                     )
                 )

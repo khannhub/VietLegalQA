@@ -21,7 +21,7 @@ class QAPair(Entry):
         self.question = question
         self.answer = answer
         self.start = start
-        self.type = type.upper()
+        self.type = type.upper() if type is not None else None
         self.is_impossible = is_impossible
 
     def __call__(
@@ -88,33 +88,21 @@ class QAPair(Entry):
 
     def __ne__(self, __value: object) -> bool:
         try:
-            if isinstance(__value, QAPair):
-                return (
-                    True
-                    if self.article != __value.article
-                    and self.question != __value.question
-                    and self.answer != __value.answer
-                    and self.start != __value.start
-                    else False
-                )
-            else:
-                return False
+            return not self.__eq__(__value)
         except Exception as e:
             raise e
 
     def __lt__(self, __value: object) -> bool:
         try:
             if isinstance(__value, QAPair):
-                if self.article < __value.article:
-                    return True
-                elif self.question < __value.question:
-                    return True
-                elif self.answer < __value.answer:
-                    return True
-                elif self.start < __value.start:
-                    return True
+                if self.article != __value.article:
+                    return self.article < __value.article
+                elif self.question != __value.question:
+                    return self.question < __value.question
+                elif self.answer != __value.answer:
+                    return self.answer < __value.answer
                 else:
-                    return False
+                    return self.start < __value.start
             else:
                 return False
         except Exception as e:
@@ -123,16 +111,14 @@ class QAPair(Entry):
     def __gt__(self, __value: object) -> bool:
         try:
             if isinstance(__value, QAPair):
-                if self.article > __value.article:
-                    return True
-                elif self.question > __value.question:
-                    return True
-                elif self.answer > __value.answer:
-                    return True
-                elif self.start > __value.start:
-                    return True
+                if self.article != __value.article:
+                    return self.article > __value.article
+                elif self.question != __value.question:
+                    return self.question > __value.question
+                elif self.answer != __value.answer:
+                    return self.answer > __value.answer
                 else:
-                    return False
+                    return self.start > __value.start
             else:
                 return False
         except Exception as e:
@@ -140,37 +126,13 @@ class QAPair(Entry):
 
     def __le__(self, __value: object) -> bool:
         try:
-            if isinstance(__value, QAPair):
-                if self.article <= __value.article:
-                    return True
-                elif self.question <= __value.question:
-                    return True
-                elif self.answer <= __value.answer:
-                    return True
-                elif self.start <= __value.start:
-                    return True
-                else:
-                    return False
-            else:
-                return False
+            return self.__lt__(__value) or self.__eq__(__value)
         except Exception as e:
             raise e
 
     def __ge__(self, __value: object) -> bool:
         try:
-            if isinstance(__value, QAPair):
-                if self.article >= __value.article:
-                    return True
-                elif self.question >= __value.question:
-                    return True
-                elif self.answer >= __value.answer:
-                    return True
-                elif self.start >= __value.start:
-                    return True
-                else:
-                    return False
-            else:
-                return False
+            return self.__gt__(__value) or self.__eq__(__value)
         except Exception as e:
             raise e
 
@@ -240,9 +202,9 @@ class QADataset(Dataset):
                             is_impossible=entry[field[6]],
                         )
                 case dict():
-                    for idx, id in enumerate(data[field[0]]):
-                        self.data[id] = QAPair(
-                            id=id,
+                    for idx, qa_id in enumerate(data[field[0]]):
+                        self.data[qa_id] = QAPair(
+                            id=qa_id,
                             article=data[field[1]][idx],
                             question=data[field[2]][idx],
                             answer=data[field[3]][idx],
@@ -270,6 +232,8 @@ class QADataset(Dataset):
 
     def get_article(self, id: str, document: Document) -> Article:
         try:
-            return document[self.data[id]]
+            qa_pair = self.data[id]
+            article_id = qa_pair.article.split("__")[0] if qa_pair.article else None
+            return document[article_id] if article_id else None
         except Exception as e:
             raise (e)

@@ -84,9 +84,9 @@ class Document(Dataset):
                             context=entry[field[3]],
                         )
                 case dict():
-                    for idx, id in enumerate(data[field[0]]):
-                        self.data[idx] = Article(
-                            id=id,
+                    for idx, article_id in enumerate(data[field[0]]):
+                        self.data[article_id] = Article(
+                            id=article_id,
                             title=data[field[1]][idx],
                             summary=data[field[2]][idx],
                             context=data[field[3]][idx],

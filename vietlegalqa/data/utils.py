@@ -33,41 +33,41 @@ class Field:
 class DocField(Field):
     @property
     def title() -> str:
-        return FIELD[1]
+        return DOC_FIELD[1]
 
     @property
     def summary() -> str:
-        return FIELD[2]
+        return DOC_FIELD[2]
 
     @property
     def context() -> str:
-        return FIELD[3]
+        return DOC_FIELD[3]
 
 
 class QAField(Field):
     @property
     def article() -> str:
-        return FIELD[1]
+        return QA_FIELD[1]
 
     @property
     def question() -> str:
-        return FIELD[2]
+        return QA_FIELD[2]
 
     @property
     def answer() -> str:
-        return FIELD[3]
+        return QA_FIELD[3]
 
     @property
     def start() -> str:
-        return FIELD[4]
+        return QA_FIELD[4]
 
     @property
     def type() -> str:
-        return FIELD[5]
+        return QA_FIELD[5]
 
     @property
     def is_impossible() -> str:
-        return FIELD[6]
+        return QA_FIELD[6]
 
 
 def get_extension(filename: str, type: Optional[str]) -> str:
@@ -317,7 +317,7 @@ class Dataset:
 
     def to_dataset(self) -> Dataset:
         try:
-            return Dataset.from_list(self.data.to_list())
+            return Dataset.from_list(self.to_list())
         except Exception as e:
             raise e
 
