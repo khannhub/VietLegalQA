@@ -1,3 +1,6 @@
 stanza
 transformers
 datasets
+underthesea
+torch
+tqdm

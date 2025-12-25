@@ -1,6 +1,6 @@
 from stanza.pipeline.core import Pipeline
 from tqdm import tqdm
-from typing import List
+from typing import List, Optional
 
 from vietlegalqa.data.doc import Document
 from vietlegalqa.data.qa import QADataset, QAPair
@@ -125,7 +125,7 @@ class QAConstruct:
 
                             self.data.append(
                                 QAPair(
-                                    id=f"tvpl_{len(self.data)}",
+                                    id=f"{id_prefix}_{len(self.data)}",
                                     article=f"{article.id}__{context_id}",
                                     question=question,
                                     answer=answer,

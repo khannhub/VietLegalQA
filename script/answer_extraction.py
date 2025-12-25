@@ -12,7 +12,7 @@ PREFIX = "tvpl"
 
 def check_args(args) -> tuple[bool, str]:
     if args.use_gpu is True:
-        if not is_available:
+        if not is_available():
             setattr(args, "use_gpu", False)
 
     if args.device >= device_count() or args.device < 0:
@@ -54,19 +54,20 @@ def main(args):
 
     constructor = QAConstruct(stopwords=STOPWORDS, parser=PARSER, pos=POS)
     qa = constructor(document=doc, id_prefix=args.id_prefix)
-    qa.to_pickle("./data/tvpl_contruct.pkl")
+    output_path = args.output_file if args.output_file.endswith('.pkl') else f"{args.output_file}.pkl"
+    qa.to_pickle(output_path)
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--doc", default=DOC_HF, type=str)
-    parser.add_argument("--stopwords_dir", default=STOPWORDS_DIR, type=str)
-    parser.add_argument("--id_prefix", default=PREFIX, type=str)
-    parser.add_argument("--output_file", default=f"{PREFIX}_construct.py", type=str)
-    parser.add_argument("--lang", default="vi", type=str)
-    parser.add_argument("--use_gpu", default=True, type=bool)
-    parser.add_argument("--device", default=0, type=int)
-    parser.add_argument("--verbose", default=0, type=bool)
+    parser.add_argument("--doc", default=DOC_HF, type=str, help="HuggingFace dataset path or identifier")
+    parser.add_argument("--stopwords_dir", default=STOPWORDS_DIR, type=str, help="Path to stopwords file")
+    parser.add_argument("--id_prefix", default=PREFIX, type=str, help="Prefix for QA pair IDs")
+    parser.add_argument("--output_file", default=f"./data/{PREFIX}_construct.pkl", type=str, help="Output file path for generated QA dataset")
+    parser.add_argument("--lang", default="vi", type=str, help="Language code for Stanza pipeline")
+    parser.add_argument("--use_gpu", action="store_true", help="Use GPU for processing")
+    parser.add_argument("--device", default=0, type=int, help="GPU device index")
+    parser.add_argument("--verbose", default=0, type=int, help="Verbosity level for Stanza pipeline")
     args = parser.parse_args()
 
     if check_args(args):

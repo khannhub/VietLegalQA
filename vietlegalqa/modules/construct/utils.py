@@ -32,7 +32,7 @@ def tree_to_text(tree: Tree, sep: Optional[str] = " "):
     return sep.join(tree.leaf_labels())
 
 
-def stanza_tokenizer(text: str) -> str:
+def stanza_tokenizer(text: str) -> List[List[str]]:
     return [word_tokenize(sent) for sent in sent_tokenize(text)]
 
 
@@ -82,7 +82,7 @@ def get_keys(doc_nlp: Document, pos_tag: str) -> List[str]:
 
 
 def extract_clauses_constituent(
-    node: Tree, threshold: Optional[int] == 3, sep: Optional[str] = " "
+    node: Tree, threshold: Optional[int] = 3, sep: Optional[str] = " "
 ) -> List[str]:
     if node.is_leaf():
         return list()
@@ -106,7 +106,7 @@ def extract_clauses_comma(sent: str, threshold: Optional[int] = 5) -> List[str]:
 
     if len(comma_clauses) > 1:
         for idx, clause in enumerate(comma_clauses):
-            for next_clause in enumerate(comma_clauses[idx + 1 :]):
+            for next_clause in comma_clauses[idx + 1:]:
                 if len(clause.split()) < threshold:
                     clause += f" , {next_clause}"
                 else:
